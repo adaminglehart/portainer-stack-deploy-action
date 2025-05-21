@@ -63,7 +63,7 @@ class PortainerApi {
         return data;
     }
     async createStack(params, body) {
-        await this.axiosInstance.post('/stacks/create/standalone/repository', body, { params });
+        await this.axiosInstance.post('/stacks/create/standalone/repository', { ...body, repositoryAuthentication: true }, { params });
     }
     async updateStack(id, params, body) {
         await this.axiosInstance.put(`/stacks/${id}`, body, { params });
