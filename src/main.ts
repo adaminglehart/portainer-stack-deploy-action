@@ -13,24 +13,23 @@ export async function run(): Promise<void> {
     const password: string = core.getInput('password', {
       required: true
     })
-    const swarmId: string = core.getInput('swarm-id', {
-      required: false
-    })
     const endpointId: string = core.getInput('endpoint-id', {
       required: false
     })
     const stackName: string = core.getInput('stack-name', {
       required: true
     })
-    const stackDefinitionFile: string = core.getInput('stack-definition', {
-      required: false
+    const dockerComposeFile: string = core.getInput('docker-compose-file', {
+      required: true
     })
     const templateVariables: string = core.getInput('template-variables', {
       required: false
     })
-    const image: string = core.getInput('image', {
-      required: false
-    })
+    const gitCredentialId: number = parseInt(
+      core.getInput('git-credential-id', {
+        required: true
+      })
+    )
     const pruneStack: boolean = core.getBooleanInput('prune-stack', {
       required: false
     })
@@ -42,12 +41,11 @@ export async function run(): Promise<void> {
       portainerHost,
       username,
       password,
-      swarmId,
       endpointId: parseInt(endpointId) || 1,
       stackName,
-      stackDefinitionFile: stackDefinitionFile ?? undefined,
+      dockerComposeFile,
+      gitCredentialId,
       templateVariables: templateVariables ? JSON.parse(templateVariables) : undefined,
-      image,
       pruneStack: pruneStack || false,
       pullImage: pullImage || false
     })

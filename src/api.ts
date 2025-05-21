@@ -15,8 +15,13 @@ type StackData = {
   Env: EnvVariables
 }
 
-type CreateStackParams = { type: number; method: string; endpointId: EndpointId }
-type CreateStackBody = { name: string; stackFileContent: string; swarmID?: string }
+type CreateStackParams = { endpointId: EndpointId }
+type CreateStackBody = {
+  name: string
+  composeFile: string
+  gitCredentialId: number
+  repositoryURL: string
+}
 type UpdateStackParams = { endpointId: EndpointId }
 type UpdateStackBody = {
   env: EnvVariables
@@ -57,7 +62,7 @@ export class PortainerApi {
   }
 
   async createStack(params: CreateStackParams, body: CreateStackBody): Promise<void> {
-    await this.axiosInstance.post('/stacks', body, { params })
+    await this.axiosInstance.post('/stacks/create/standalone/repository', body, { params })
   }
 
   async updateStack(id: number, params: UpdateStackParams, body: UpdateStackBody): Promise<void> {
