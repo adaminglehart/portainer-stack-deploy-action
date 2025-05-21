@@ -25,9 +25,9 @@ type CreateStackBody = {
 type UpdateStackParams = { endpointId: EndpointId }
 type UpdateStackBody = {
   env: EnvVariables
-  stackFileContent?: string
-  prune: boolean
-  pullImage: boolean
+  composeFile: string
+  repositoryGitCredentialID: number
+  repositoryURL: string
 }
 
 export class PortainerApi {
@@ -70,6 +70,10 @@ export class PortainerApi {
   }
 
   async updateStack(id: number, params: UpdateStackParams, body: UpdateStackBody): Promise<void> {
-    await this.axiosInstance.put(`/stacks/${id}`, body, { params })
+    await this.axiosInstance.put(
+      `/stacks/${id}/git/redeploy`,
+      { ...body, repositoryAuthentication: true },
+      { params }
+    )
   }
 }

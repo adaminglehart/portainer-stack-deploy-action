@@ -66,7 +66,7 @@ class PortainerApi {
         await this.axiosInstance.post('/stacks/create/standalone/repository', { ...body, repositoryAuthentication: true }, { params });
     }
     async updateStack(id, params, body) {
-        await this.axiosInstance.put(`/stacks/${id}`, body, { params });
+        await this.axiosInstance.put(`/stacks/${id}/git/redeploy`, { ...body, repositoryAuthentication: true }, { params });
     }
 }
 exports.PortainerApi = PortainerApi;
@@ -118,25 +118,21 @@ async function deployStack({ portainerHost, username, password, endpointId, stac
     try {
         const allStacks = await portainerApi.getStacks();
         const existingStack = allStacks.find(s => s.Name === stackName);
+        const repositoryURL = `https://github.com/${github.context.repo.owner}/${github.context.repo.repo}`;
         if (existingStack) {
             core.info(`Found existing stack with name: ${stackName}`);
             core.info('Updating existing stack...');
-            // await portainerApi.updateStack(
-            //   existingStack.Id,
-            //   {
-            //     endpointId: existingStack.EndpointId
-            //   },
-            //   {
-            //     env: existingStack.Env,
-            //     stackFileContent: stackDefinitionToDeploy,
-            //     prune: pruneStack ?? false,
-            //     pullImage: pullImage ?? false
-            //   }
-            // )
+            await portainerApi.updateStack(existingStack.Id, {
+                endpointId: existingStack.EndpointId
+            }, {
+                env: existingStack.Env,
+                composeFile: dockerComposeFile,
+                repositoryURL,
+                repositoryGitCredentialID: gitCredentialId
+            });
             core.info('Successfully updated existing stack');
         }
         else {
-            const repositoryURL = `https://github.com/${github.context.repo.owner}/${github.context.repo.repo}`;
             core.info('Deploying new stack from repo ' + repositoryURL + ' : ' + dockerComposeFile);
             await portainerApi.createStack({
                 endpointId
