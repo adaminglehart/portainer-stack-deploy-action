@@ -33,6 +33,9 @@ inputs:
   pull-image:
     required: false
     description: 'If true, the image will be pulled before deployment'
+  git-credential-id:
+    required: true
+    description: 'ID of the GitHub credential to use for authentication'
 
 runs:
   using: 'node20'
