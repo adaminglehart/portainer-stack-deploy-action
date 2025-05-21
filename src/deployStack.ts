@@ -54,7 +54,8 @@ DeployStack): Promise<void> {
       // )
       core.info('Successfully updated existing stack')
     } else {
-      core.info('Deploying new stack...')
+      const repositoryURL = process.env.GITHUB_WORKSPACE ?? 'none'
+      core.info('Deploying new stack from repo ' + repositoryURL + ' : ' + dockerComposeFile)
       await portainerApi.createStack(
         {
           endpointId
@@ -62,7 +63,7 @@ DeployStack): Promise<void> {
         {
           name: stackName,
           composeFile: dockerComposeFile,
-          repositoryURL: process.env.GITHUB_WORKSPACE ?? 'none',
+          repositoryURL,
           gitCredentialId
         }
       )

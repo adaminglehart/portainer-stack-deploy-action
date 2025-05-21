@@ -30,10 +30,10 @@ export async function run(): Promise<void> {
         required: true
       })
     )
-    const pruneStack: boolean = core.getBooleanInput('prune-stack', {
+    const pruneStack = core.getBooleanInput('prune-stack', {
       required: false
     })
-    const pullImage: boolean = core.getBooleanInput('pull-image', {
+    const pullImage = core.getBooleanInput('pull-image', {
       required: false
     })
 
