@@ -125,6 +125,7 @@ export async function deployStack({
       core.info(`Successfully created new stack with name: ${stackName}`)
     }
   } catch (error) {
+    core.warn(error)
     core.info('⛔️ Something went wrong during deployment!')
     throw error
   } finally {
