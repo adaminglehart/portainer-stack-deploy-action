@@ -70,6 +70,9 @@ DeployStack): Promise<void> {
     }
   } catch (error) {
     core.info('⛔️ Something went wrong during deployment!')
+    core.info((error as Error).message)
+    core.info((error as Error).name)
+    core.info((error as Error).stack ?? '')
     throw error
   } finally {
     core.info(`Logging out from Portainer instance...`)
