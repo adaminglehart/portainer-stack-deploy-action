@@ -1,5 +1,6 @@
 import { PortainerApi } from './api'
 import * as core from '@actions/core'
+import * as github from '@actions/github'
 
 type DeployStack = {
   portainerHost: string
@@ -54,7 +55,7 @@ DeployStack): Promise<void> {
       // )
       core.info('Successfully updated existing stack')
     } else {
-      const repositoryURL = process.env.GITHUB_WORKSPACE ?? 'none'
+      const repositoryURL = `https://github.com/${github.context.repo.owner}/${github.context.repo.repo}`
       core.info('Deploying new stack from repo ' + repositoryURL + ' : ' + dockerComposeFile)
       await portainerApi.createStack(
         {
