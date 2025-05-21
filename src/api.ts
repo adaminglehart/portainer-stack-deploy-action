@@ -19,7 +19,7 @@ type CreateStackParams = { endpointId: EndpointId }
 type CreateStackBody = {
   name: string
   composeFile: string
-  gitCredentialId: number
+  repositoryGitCredentialID: number
   repositoryURL: string
 }
 type UpdateStackParams = { endpointId: EndpointId }

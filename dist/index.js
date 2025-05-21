@@ -144,7 +144,7 @@ async function deployStack({ portainerHost, username, password, endpointId, stac
                 name: stackName,
                 composeFile: dockerComposeFile,
                 repositoryURL,
-                gitCredentialId
+                repositoryGitCredentialID: gitCredentialId
             });
             core.info(`Successfully created new stack with name: ${stackName}`);
         }

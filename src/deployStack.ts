@@ -65,7 +65,7 @@ DeployStack): Promise<void> {
           name: stackName,
           composeFile: dockerComposeFile,
           repositoryURL,
-          gitCredentialId
+          repositoryGitCredentialID: gitCredentialId
         }
       )
       core.info(`Successfully created new stack with name: ${stackName}`)
